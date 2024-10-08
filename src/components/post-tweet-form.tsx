@@ -65,9 +65,28 @@ export default function PostTweetForm() {
 	};
 	const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
-		// 1GB이상은 받지 않도록 코딩
+		// 1. 1GB이상은 받지 않도록 코딩
 		if (files && files.length === 1) {
 			setFile(files[0]);
+			const bytesUnit = ['Byte', 'KB', 'MB', 'GB', 'TB'];
+
+			let uploadFileSize = files[0].size;
+			let digit = 0;
+
+			while (uploadFileSize > 1024) {
+				uploadFileSize /= 1024;
+				digit++;
+			}
+
+			console.log(
+				`Your File size is ${uploadFileSize.toFixed(2) + bytesUnit[digit]}`
+			);
+
+			const limitFileSize = 1024 ** 3; // 1GB
+			if (uploadFileSize > limitFileSize) {
+				alert('Please add file that is 1GB or less.');
+				setFile(null);
+			}
 		}
 	};
 	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
