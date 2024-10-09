@@ -65,7 +65,6 @@ export default function PostTweetForm() {
 	};
 	const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
-		// 1. 1GB이상은 받지 않도록 코딩
 		if (files && files.length === 1) {
 			setFile(files[0]);
 			const bytesUnit = ['Byte', 'KB', 'MB', 'GB', 'TB'];

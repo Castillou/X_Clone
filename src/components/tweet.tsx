@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { ITweet } from './timeline';
 import { auth, db, storage } from '../firebase';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 
 const Wrapper = styled.article`
@@ -37,10 +37,30 @@ const DeleteButton = styled.button`
 	text-transform: uppercase;
 	border-radius: 5px;
 	cursor: pointer;
+	margin-right: 10px;
+`;
+const EditButton = styled.button`
+	background-color: #efefef;
+	color: black;
+	font-weight: 600;
+	border: 0;
+	font-size: 12px;
+	padding: 5px 10px;
+	text-transform: uppercase;
+	border-radius: 5px;
+	cursor: pointer;
 `;
 
-export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
+export default function Tweet({
+	createdAt,
+	username,
+	photo,
+	tweet,
+	userId,
+	id,
+}: ITweet) {
 	const user = auth.currentUser;
+
 	const onDelete = async () => {
 		const ok = confirm('Are you sure you want to delete this tweet?');
 
@@ -56,19 +76,34 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
 		}
 	};
 
+	const onEdit = async () => {
+		const eidttweet = prompt('Insert new contents!');
+		if (!eidttweet) return;
+		try {
+			await setDoc(doc(db, 'tweets', id), {
+				tweet: eidttweet,
+				createdAt,
+				username,
+				userId,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<Wrapper>
 			<Column>
 				<Username>{username}</Username>
 				<Payload>{tweet}</Payload>
 				{user?.uid === userId ? (
-					<DeleteButton onClick={onDelete}>Delete</DeleteButton>
+					<>
+						<DeleteButton onClick={onDelete}>Delete</DeleteButton>
+						<EditButton onClick={onEdit}>Edit</EditButton>
+					</>
 				) : null}
 			</Column>
 			<Column>{photo ? <Photo src={photo} /> : null}</Column>
 		</Wrapper>
 	);
 }
-
-// 1. post-tweet-form 컴포넌트 : 1GB이상은 받지 않도록 코딩
-// 2. tweet Edit 기능 구현하기
