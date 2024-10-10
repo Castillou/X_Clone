@@ -77,11 +77,11 @@ export default function Tweet({
 	};
 
 	const onEdit = async () => {
-		const eidttweet = prompt('Insert new contents!');
-		if (!eidttweet) return;
+		const editweet = prompt('Insert new contents!');
+		if (!editweet) return;
 		try {
 			await setDoc(doc(db, 'tweets', id), {
-				tweet: eidttweet,
+				tweet: editweet,
 				createdAt,
 				username,
 				userId,

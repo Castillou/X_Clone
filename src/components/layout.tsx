@@ -36,6 +36,9 @@ const MenuItem = styled.li`
 			fill: tomato;
 		}
 	}
+	&:hover {
+		opacity: 0.8;
+	}
 `;
 
 export default function Layout() {

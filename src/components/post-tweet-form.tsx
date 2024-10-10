@@ -111,6 +111,9 @@ export default function PostTweetForm() {
 				setTweet('');
 				setFile(null);
 			}
+			if (!file && tweet) {
+				setTweet('');
+			}
 		} catch (e) {
 			console.log(e);
 		} finally {
