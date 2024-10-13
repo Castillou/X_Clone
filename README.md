@@ -1,3 +1,3 @@
-# Switter Clone Coding
+# X Clone Coding
 
-This repository docs the X (formerly Twitter) clone coding.
+React와 firebase를 기반으로한 X (구 트위터) 웹 어플리케이션
